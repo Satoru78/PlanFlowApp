@@ -1,0 +1,50 @@
+﻿<Page x:Class="PlanFlowApp.Views.Pages.PlanPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PlanFlowApp.Views.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="План">
+
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Кнопка -->
+            <RowDefinition Height="*"/>
+            <!-- Таблица -->
+        </Grid.RowDefinitions>
+
+        <!-- Панель кнопок -->
+        <StackPanel Orientation="Horizontal" 
+                    Grid.Row="0" 
+                    HorizontalAlignment="Right"
+                    Margin="0 0 0 10">
+            <Button Content="📥 Импорт из Excel"                  
+                    Name="ImportBtn"
+                    Click="ImportBtn_Click"
+                    Background="#FF4CAF50"
+                    Foreground="White"
+                    FontWeight="SemiBold"
+                    FontSize="14"    
+                    Width="150"
+                    Height="35"
+                    Margin="0,5,10,0"/>
+            <!-- Можно добавить еще кнопки позже -->
+        </StackPanel>
+        <Grid Margin="10,0,10,0" Grid.Row="1">
+            <DataGrid x:Name="OperationsDataGrid" AutoGenerateColumns="False" IsReadOnly="True" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Деталь" Binding="{Binding Details.Title}" Width="*" />
+                    <DataGridTextColumn Header="Операция" Binding="{Binding TypeOperation.Title}" Width="120" />
+                    <DataGridTextColumn Header="Время (мин)" Binding="{Binding EstimatedTime}" Width="50" />
+                    <DataGridTextColumn Header="Количество"  Binding="{Binding Quantity}" Width="50" />
+                    <DataGridTextColumn Header="Выполнено" Binding="{Binding DoneQuantity}" Width="50" />
+                    <DataGridTextColumn Header="Статус" Binding="{Binding OperationStatuses.Name}" Width="70" />
+                    <DataGridTextColumn Header="Исполнитель" Binding="{Binding Workers.FirstName}" Width="150" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</Page>
