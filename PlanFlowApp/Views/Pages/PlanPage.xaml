@@ -36,7 +36,8 @@
         <Grid Margin="10,0,10,0" Grid.Row="1">
             <DataGrid x:Name="OperationsDataGrid" AutoGenerateColumns="False" IsReadOnly="True" >
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Деталь" Binding="{Binding Details.Title}" Width="*" />
+                    <DataGridTextColumn Header="Обозначение" Binding="{Binding Details.Code}" Width="*" />
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding Details.Title}" Width="*" />
                     <DataGridTextColumn Header="Операция" Binding="{Binding TypeOperation.Title}" Width="120" />
                     <DataGridTextColumn Header="Время (мин)" Binding="{Binding EstimatedTime}" Width="50" />
                     <DataGridTextColumn Header="Количество"  Binding="{Binding Quantity}" Width="50" />
