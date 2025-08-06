@@ -133,6 +133,7 @@
     <Compile Include="Model\OperationStatuses.cs">
       <DependentUpon>PlanModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\PartialWorkers.cs" />
     <Compile Include="Model\PlanModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -163,6 +164,8 @@
     <Compile Include="Model\Workers.cs">
       <DependentUpon>PlanModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\OperationAssignmentViewModel.cs" />
+    <Compile Include="ViewModel\WorkerViewModel.cs" />
     <Compile Include="Views\Pages\AssignmentsPage.xaml.cs">
       <DependentUpon>AssignmentsPage.xaml</DependentUpon>
     </Compile>
@@ -217,7 +220,6 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="Resource\" />
-    <Folder Include="ViewModel\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Model\PlanModel.Context.tt">

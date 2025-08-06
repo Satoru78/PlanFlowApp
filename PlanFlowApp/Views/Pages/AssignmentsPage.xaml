@@ -8,7 +8,68 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AssignmentsPage">
 
-    <Grid>
-        
-    </Grid>
+    <Border Margin="10"
+            Padding="20"
+            Background="White"
+            CornerRadius="10"
+            BorderBrush="#DDD"
+            BorderThickness="1"
+            SnapsToDevicePixels="True">
+
+        <DockPanel LastChildFill="True">
+
+            <TextBlock Text="Назначение сотрудников на операции"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Margin="0 0 0 10"
+                       DockPanel.Dock="Top"/>
+            
+            <Button Content="Сохранить назначения"
+                       DockPanel.Dock="Bottom"
+                       Width="200"
+                       Height="35"
+                       HorizontalAlignment="Right"
+                       Margin="0 0 0 0"
+                       Background="#007ACC"
+                       Foreground="White"
+                       FontWeight="SemiBold"
+                       BorderThickness="0"
+                       Cursor="Hand"
+                       Padding="8,4"
+                       Name="SaveAssignmentsBtn"
+                       Click="SaveAssignmentsBtn_Click" />
+            
+            <DataGrid x:Name="AssignmentGrid"
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      Margin="0 0 0 10"
+                      IsReadOnly="False"
+                      RowHeaderWidth="0"
+                      HeadersVisibility="Column"
+                      ColumnWidth="*"
+                      AlternatingRowBackground="#FAFAFA"
+                      GridLinesVisibility="Horizontal"
+                      ItemsSource="{Binding}">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Обозначение" Binding="{Binding DetailCode}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Деталь" Binding="{Binding DetailTitle}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Операция" Binding="{Binding TypeOperationTitle}" IsReadOnly="True"/>
+
+                    <DataGridTemplateColumn Header="Сотрудник">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding Workers, RelativeSource={RelativeSource AncestorType=Page}}"
+                                          DisplayMemberPath="FullName"
+                                          SelectedValuePath="Id"
+                                          SelectedValue="{Binding AssignedWorkerId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                          MinWidth="150"
+                                          />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Border>
 </Page>

@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Microsoft.Win32;
 using PlanFlowApp.Model;
+using PlanFlowApp.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,20 @@ namespace PlanFlowApp.Views.Pages
                 .Include("Workers")
                 .ToList();
 
-            OperationsDataGrid.ItemsSource = operations;
+            var operationVMs = operations.Select(op => new OperationAssignmentViewModel
+            {
+                OperationId = op.Id,
+                DetailCode = op.Details.Code,
+                DetailTitle = op.Details.Title,
+                TypeOperationTitle = op.TypeOperation.Title,
+                EstimatedTime = op.EstimatedTime ?? 0,
+                Quantity = op.Quantity ?? 0,
+                DoneQuantity = op.DoneQuantity ?? 0,
+                AssignedWorkerName = op.Workers != null ? op.Workers.FirstName + " " + op.Workers.LastName : "",
+                StatusTitle = op.OperationStatuses.Name
+            }).ToList();
+
+            OperationsDataGrid.DataContext = operationVMs;
         }
         private void ImportBtn_Click(object sender, RoutedEventArgs e)
         {

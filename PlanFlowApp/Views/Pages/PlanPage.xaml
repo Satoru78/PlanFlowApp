@@ -8,44 +8,89 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="План">
 
-    <Grid >
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <!-- Кнопка -->
-            <RowDefinition Height="*"/>
-            <!-- Таблица -->
-        </Grid.RowDefinitions>
+  
 
-        <!-- Панель кнопок -->
-        <StackPanel Orientation="Horizontal" 
-                    Grid.Row="0" 
-                    HorizontalAlignment="Right"
-                    Margin="0 0 0 10">
-            <Button Content="📥 Импорт из Excel"                  
-                    Name="ImportBtn"
-                    Click="ImportBtn_Click"
-                    Background="#FF4CAF50"
-                    Foreground="White"
-                    FontWeight="SemiBold"
-                    FontSize="14"    
-                    Width="150"
-                    Height="35"
-                    Margin="0,5,10,0"/>
-            <!-- Можно добавить еще кнопки позже -->
-        </StackPanel>
-        <Grid Margin="10,0,10,0" Grid.Row="1">
-            <DataGrid x:Name="OperationsDataGrid" AutoGenerateColumns="False" IsReadOnly="True" >
+<Border Margin="10"
+        Padding="20"
+        Background="White"
+        CornerRadius="10"
+        BorderBrush="#DDD"
+        BorderThickness="1"
+        SnapsToDevicePixels="True">
+
+    <DockPanel LastChildFill="True">
+
+        <!-- Заголовок -->
+        <TextBlock Text="План операций"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   Margin="0 0 0 10"
+                   DockPanel.Dock="Top"
+                   HorizontalAlignment="Left"
+                   Width="200"/>
+
+        <!-- Кнопка импорта -->
+        <Button Content="📥 Импорт из Excel"                  
+         Name="ImportBtn"
+         DockPanel.Dock="Bottom"
+         Click="ImportBtn_Click"
+         HorizontalAlignment="Right"
+         Background="#FF4CAF50"
+         Foreground="White"
+         FontWeight="SemiBold"
+         FontSize="14"    
+         Cursor="Hand"
+         Width="150"
+         Height="35"
+         Margin="0,5,0,0"/>
+
+        <!-- Таблица -->
+            <DataGrid x:Name="OperationsDataGrid" 
+                      AutoGenerateColumns="False"
+                      CanUserAddRows="False"
+                      IsReadOnly="True"
+                      RowHeaderWidth="0"
+                      HeadersVisibility="Column"
+                      Margin="0 0 0 10"
+                      ColumnWidth="*"
+                      AlternatingRowBackground="#FAFAFA"
+                      GridLinesVisibility="Horizontal"
+                      ItemsSource="{Binding}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Обозначение" Binding="{Binding Details.Code}" Width="*" />
-                    <DataGridTextColumn Header="Наименование" Binding="{Binding Details.Title}" Width="*" />
-                    <DataGridTextColumn Header="Операция" Binding="{Binding TypeOperation.Title}" Width="120" />
+                    <DataGridTextColumn Header="Обозначение" Binding="{Binding DetailCode}" Width="*" />
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding DetailTitle}" Width="*" />
+                    <DataGridTextColumn Header="Операция" Binding="{Binding TypeOperationTitle}" Width="120" />
                     <DataGridTextColumn Header="Время (мин)" Binding="{Binding EstimatedTime}" Width="50" />
                     <DataGridTextColumn Header="Количество"  Binding="{Binding Quantity}" Width="50" />
                     <DataGridTextColumn Header="Выполнено" Binding="{Binding DoneQuantity}" Width="50" />
-                    <DataGridTextColumn Header="Статус" Binding="{Binding OperationStatuses.Name}" Width="70" />
-                    <DataGridTextColumn Header="Исполнитель" Binding="{Binding Workers.FirstName}" Width="150" />
+                    <DataGridTemplateColumn Header="Изменить">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding DoneQuantity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="60"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Статус" Binding="{Binding StatusTitle}" Width="70">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding StatusTitle}" Value="Выполнено">
+                                        <Setter Property="Background" Value="Green"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding StatusTitle}" Value="В процессе">
+                                        <Setter Property="Background" Value="Goldenrod"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding StatusTitle}" Value="Задерживается">
+                                        <Setter Property="Background" Value="Red"/>
+                                    </DataTrigger>
+                                    <!-- остальные без цвета -->
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Исполнитель" Binding="{Binding AssignedWorkerName}" Width="150" />
                 </DataGrid.Columns>
             </DataGrid>
-        </Grid>
-    </Grid>
+        </DockPanel>
+    </Border>
 </Page>
