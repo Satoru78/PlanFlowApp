@@ -115,6 +115,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Windows\EditOperationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -164,6 +168,7 @@
     <Compile Include="Model\Workers.cs">
       <DependentUpon>PlanModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\EditOperationViewModel.cs" />
     <Compile Include="ViewModel\OperationAssignmentViewModel.cs" />
     <Compile Include="ViewModel\WorkerViewModel.cs" />
     <Compile Include="Views\Pages\AssignmentsPage.xaml.cs">
@@ -177,6 +182,9 @@
     </Compile>
     <Compile Include="Views\Pages\WorkersPage.xaml.cs">
       <DependentUpon>WorkersPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\EditOperationWindow.xaml.cs">
+      <DependentUpon>EditOperationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

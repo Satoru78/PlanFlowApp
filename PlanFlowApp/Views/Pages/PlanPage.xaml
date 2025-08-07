@@ -55,6 +55,7 @@
                       ColumnWidth="*"
                       AlternatingRowBackground="#FAFAFA"
                       GridLinesVisibility="Horizontal"
+                      MouseDoubleClick="OperationsDataGrid_MouseDoubleClick"
                       ItemsSource="{Binding}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Обозначение" Binding="{Binding DetailCode}" Width="*" />

@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Microsoft.Win32;
 using PlanFlowApp.Model;
 using PlanFlowApp.ViewModel;
+using PlanFlowApp.Views.Windows;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -182,6 +183,21 @@ namespace PlanFlowApp.Views.Pages
             }
 
             _context.SaveChanges();
+        }
+
+        private void OperationsDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (OperationsDataGrid.SelectedItem is OperationAssignmentViewModel selectedOperation)
+            {
+                var editWindow = new EditOperationWindow(selectedOperation);
+                editWindow.Owner = Window.GetWindow(this); // Правильно установим окно-владельца
+
+                if (editWindow.ShowDialog() == true)
+                {
+                    // После закрытия и сохранения данных обновим таблицу
+                    LoadOperations();
+                }
+            }
         }
     }
 
