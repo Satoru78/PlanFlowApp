@@ -28,5 +28,66 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="BasicButtonGray" TargetType="Button">
+            <Setter Property="Padding" Value="8 4"></Setter>
+            <Setter Property="Background" Value="#E0E0E0"></Setter>
+            <Setter Property="Foreground" Value="Black"></Setter>
+            <Setter Property="BorderBrush" Value="#BDBDBD"></Setter>
+            <Setter Property="FontWeight" Value="SemiBold"></Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Cursor" Value="Hand"></Setter>
+            <Setter Property="Height" Value="35"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="2">
+                            <ContentPresenter HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="10 2"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="LightBlue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="BasicButtonBlue" TargetType="Button">
+            <Setter Property="Padding" Value="8 4"></Setter>
+            <Setter Property="Background" Value="#007ACC"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="BorderBrush" Value="#BDBDBD"></Setter>
+            <Setter Property="FontWeight" Value="SemiBold"></Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Cursor" Value="Hand"></Setter>
+            <Setter Property="Height" Value="35"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="2">
+                            <ContentPresenter HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="10 2"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="LightBlue"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
 </Application>
+
+<!--Width="100" 
+ Margin="0 0 10 0"
+ Height="35"                    
+ HorizontalAlignment="Right"
+ Background="#007ACC"
+ Foreground="White"
+ FontWeight="SemiBold"
+ BorderThickness="0"
+ Cursor="Hand"
+ Padding="8,4"
+ Click="Save_Click"/>-->

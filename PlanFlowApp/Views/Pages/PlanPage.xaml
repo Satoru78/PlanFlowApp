@@ -3,14 +3,17 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:PlanFlowApp.Views.Pages"
+      xmlns:conv="clr-namespace:PlanFlowApp.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
+      Background="#2D2F31"
       Title="План">
+    <Page.Resources>
+        <conv:StringNullOrEmptyToVisibilityConverter x:Key="StringNullOrEmptyToVisibilityConverter"/>
+    </Page.Resources>
 
-  
 
-<Border Margin="10"
+    <Border Margin="10"
         Padding="20"
         Background="White"
         CornerRadius="10"
@@ -18,45 +21,60 @@
         BorderThickness="1"
         SnapsToDevicePixels="True">
 
-    <DockPanel LastChildFill="True">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+            </Grid.RowDefinitions>
 
-        <!-- Заголовок -->
-        <TextBlock Text="План операций"
-                   FontSize="20"
-                   FontWeight="Bold"
-                   Margin="0 0 0 10"
-                   DockPanel.Dock="Top"
-                   HorizontalAlignment="Left"
-                   Width="200"/>
+            <TextBlock Text="План операций"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Width="200"         
+                       VerticalAlignment="Center"
+                       Grid.Row="0"
+                       Margin="0 0 0 20"
+                       HorizontalAlignment="Left"/>
 
-        <!-- Кнопка импорта -->
-        <Button Content="📥 Импорт из Excel"                  
-         Name="ImportBtn"
-         DockPanel.Dock="Bottom"
-         Click="ImportBtn_Click"
-         HorizontalAlignment="Right"
-         Background="#FF4CAF50"
-         Foreground="White"
-         FontWeight="SemiBold"
-         FontSize="14"    
-         Cursor="Hand"
-         Width="150"
-         Height="35"
-         Margin="0,5,0,0"/>
+            <TextBox x:Name="SearchBox"
+                     Width="250"
+                     Margin="0 0 0 20"
+                     Text="{Binding SearchText,
+                     UpdateSourceTrigger=PropertyChanged}"
+                     VerticalContentAlignment="Center"
+                     HorizontalAlignment="Right"
+                     Padding="5"
+                     Height="30"
+                     TextChanged="SearchBox_TextChanged"/>
 
-        <!-- Таблица -->
+            <TextBlock Text="Поиск..."
+                       Foreground="Gray"
+                       Margin="0,0,0,20"
+                       Width="242"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Right"
+                       IsHitTestVisible="False"
+                       Visibility="{Binding Text,
+                       ElementName=SearchBox, 
+                       Converter={StaticResource StringNullOrEmptyToVisibilityConverter}}"/>
+
+
+
+            <!-- Таблица -->
             <DataGrid x:Name="OperationsDataGrid" 
                       AutoGenerateColumns="False"
                       CanUserAddRows="False"
                       IsReadOnly="True"
+                      Grid.Row="1"
                       RowHeaderWidth="0"
                       HeadersVisibility="Column"
-                      Margin="0 0 0 10"
+                      Margin="0 -10 0 10"
                       ColumnWidth="*"
                       AlternatingRowBackground="#FAFAFA"
                       GridLinesVisibility="Horizontal"
-                      MouseDoubleClick="OperationsDataGrid_MouseDoubleClick"
-                      ItemsSource="{Binding}">
+               MouseDoubleClick="OperationsDataGrid_MouseDoubleClick"
+               ItemsSource="{Binding}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Обозначение" Binding="{Binding DetailCode}" Width="*" />
                     <DataGridTextColumn Header="Наименование" Binding="{Binding DetailTitle}" Width="*" />
@@ -92,6 +110,30 @@
                     <DataGridTextColumn Header="Исполнитель" Binding="{Binding AssignedWorkerName}" Width="150" />
                 </DataGrid.Columns>
             </DataGrid>
-        </DockPanel>
+            <Grid Name="NoDetail"
+                  Visibility="Collapsed"
+                  Grid.Row="1">
+                <TextBlock Text="Операции не найдены!"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          FontSize="30"
+                          FontWeight="SemiBold"/>
+            </Grid>
+
+            <!-- Кнопка импорта -->
+            <Button Content="📥 Импорт из Excel"                  
+                    Name="ImportBtn"
+                    Click="ImportBtn_Click"
+                    HorizontalAlignment="Right"
+                    Background="#FF4CAF50"
+                    Foreground="White"
+                    FontWeight="SemiBold"
+                    FontSize="14"    
+                    Cursor="Hand"
+                    Width="150"
+                    Height="35"
+                    Margin="0,5,0,0"
+                    Grid.Row="2"/>
+        </Grid>
     </Border>
 </Page>

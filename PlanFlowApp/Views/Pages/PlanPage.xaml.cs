@@ -1,11 +1,14 @@
 ﻿using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Microsoft.Win32;
+using PlanFlowApp.Data;
 using PlanFlowApp.Model;
 using PlanFlowApp.ViewModel;
 using PlanFlowApp.Views.Windows;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +30,9 @@ namespace PlanFlowApp.Views.Pages
     public partial class PlanPage : Page
     {
         private dbPlanFlowEntities _context;
+        private List<OperationAssignmentViewModel> _allOperations;
 
+        private ICollectionView _operationsView;
         public PlanPage()
         {
             InitializeComponent();
@@ -46,7 +51,7 @@ namespace PlanFlowApp.Views.Pages
                 .Include("Workers")
                 .ToList();
 
-            var operationVMs = operations.Select(op => new OperationAssignmentViewModel
+            var _allOperations = operations.Select(op => new OperationAssignmentViewModel
             {
                 OperationId = op.Id,
                 DetailCode = op.Details.Code,
@@ -59,7 +64,11 @@ namespace PlanFlowApp.Views.Pages
                 StatusTitle = op.OperationStatuses.Name
             }).ToList();
 
-            OperationsDataGrid.DataContext = operationVMs;
+            //OperationsDataGrid.DataContext = _allOperations;
+            _operationsView = CollectionViewSource.GetDefaultView(_allOperations);
+            _operationsView.Filter = null; // без фильтра по умолчанию
+            OperationsDataGrid.ItemsSource = _operationsView;
+            UpdateNoDetailVisibility();
         }
         private void ImportBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -124,6 +133,63 @@ namespace PlanFlowApp.Views.Pages
             }
 
             return rows;
+        }
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                string q = (SearchBox.Text ?? "").Trim().ToLowerInvariant();
+
+                if (_operationsView == null) return;
+
+                if (string.IsNullOrEmpty(q))
+                {
+                    _operationsView.Filter = null;
+                }
+                else
+                {
+                    _operationsView.Filter = obj =>
+                    {
+                        var op = obj as OperationAssignmentViewModel;
+                        if (op == null) return false;
+                        return (op.DetailCode ?? "").ToLowerInvariant().Contains(q)
+                            || (op.DetailTitle ?? "").ToLowerInvariant().Contains(q)
+                            || (op.TypeOperationTitle ?? "").ToLowerInvariant().Contains(q)
+                            || (op.AssignedWorkerName ?? "").ToLowerInvariant().Contains(q)
+                            || (op.StatusTitle ?? "").ToLowerInvariant().Contains(q);
+                    };
+                }
+
+                _operationsView.Refresh();
+                UpdateNoDetailVisibility();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка при поиске: " + ex.Message, "Внимание",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void UpdateNoDetailVisibility()
+        {
+            if (_operationsView == null)
+            {
+                NoDetail.Visibility = Visibility.Visible;
+                OperationsDataGrid.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            // ICollectionView имеет IsEmpty
+            if (_operationsView.IsEmpty)
+            {
+                OperationsDataGrid.Visibility = Visibility.Collapsed;
+                NoDetail.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                OperationsDataGrid.Visibility = Visibility.Visible;
+                NoDetail.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void ImportOperations(List<OperationImportModel> importedRows)
@@ -199,6 +265,7 @@ namespace PlanFlowApp.Views.Pages
                 }
             }
         }
+
     }
 
 }

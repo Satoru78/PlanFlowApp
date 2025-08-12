@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PlanFlowApp"
         mc:Ignorable="d"
         ResizeMode="CanResizeWithGrip"
-        Title="MainWindow" Height="600" Width="1000">
+        Title="PlanFlow" Height="600" Width="1000">
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -33,6 +33,7 @@
                     <Button Content="⚙️ Настройки"
                             Style="{StaticResource MenuButton}"
                             Name="SettingsBtn"
+                            IsEnabled="False"
                             Click="SettingsBtn_Click"/>
                 </StackPanel>
             </Border>

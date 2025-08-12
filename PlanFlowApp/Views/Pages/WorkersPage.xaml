@@ -3,12 +3,95 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:PlanFlowApp.Views.Pages"
+      xmlns:conv="clr-namespace:PlanFlowApp.Converters"
       mc:Ignorable="d" 
+      Background="#2D2F31"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="WorkersPage">
-
+      Title="Сотрудники">
+    <Page.Resources>
+        <conv:StringNullOrEmptyToVisibilityConverter x:Key="StringNullOrEmptyToVisibilityConverter"/>
+    </Page.Resources>
     <Grid>
-        
+        <Border Margin="10" Padding="20" Background="White" CornerRadius="10" BorderBrush="#DDD" BorderThickness="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                <RowDefinition Height="50"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="50"></RowDefinition>
+            </Grid.RowDefinitions>
+                
+                <TextBlock Text="Сотрудники"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Width="200"         
+                           VerticalAlignment="Center"
+                           Grid.Row="0"
+                           Margin="0 0 0 20"
+                           HorizontalAlignment="Left"/>
+
+                <TextBox x:Name="WorkerSearchBox"
+                         Width="250"
+                         Margin="0 0 0 20"
+                         Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                         VerticalContentAlignment="Center"
+                         HorizontalAlignment="Right"
+                         Padding="5"
+                         Height="30"
+                         TextChanged="WorkerSearchBox_TextChanged"/>
+                
+                <TextBlock Text="Поиск..."
+                           Foreground="Gray"
+                           Margin="0,0,0,20"
+                           Width="242"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Right"
+                           IsHitTestVisible="False"
+                           Visibility="{Binding Text, ElementName=WorkerSearchBox, Converter={StaticResource StringNullOrEmptyToVisibilityConverter}}"/>
+                <!--<StackPanel Orientation="Horizontal" Grid.Row="0" VerticalAlignment="Center" Margin="0 0 0 10">
+                    <TextBlock Text="Сотрудники" FontSize="20" FontWeight="Bold" Width="200" 
+                               Margin="0 0 0 20"
+                               VerticalAlignment="Center" />
+                    <TextBox x:Name="WorkerSearchBox" Width="250" VerticalAlignment="Center"
+                             Padding="5"
+                             Margin="20,0,0,0" 
+                             
+                             TextChanged="WorkerSearchBox_TextChanged"/>
+                </StackPanel>-->
+
+                <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right" Margin="0 5 0 0">
+                    <Button Content="Добавить"
+                            Name="AddWorkerBtn"
+                            Click="AddWorkerBtn_Click"
+                            Width="110" 
+                            Style="{StaticResource BasicButtonBlue}"
+                            Margin="0 0 10 0"/>
+                    <Button Content="Редактировать" 
+                            Name="EditWorkerBtn" 
+                            Click="EditWorkerBtn_Click"
+                            Width="110" 
+                            Style="{StaticResource BasicButtonBlue}"
+                            Margin="0 0 10 0"/>
+                    <Button Content="Удалить"
+                            Name="DeleteWorkerBtn"
+                            Click="DeleteWorkerBtn_Click"
+                            Style="{StaticResource BasicButtonGray}"
+                            Width="110"/>
+                </StackPanel>
+
+                <DataGrid x:Name="WorkersDataGrid" 
+                          AutoGenerateColumns="False" 
+                          CanUserAddRows="False"
+                          IsReadOnly="True"
+                          Margin="0 -10 0 0"                        
+                          Grid.Row="1">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60"/>
+                        <DataGridTextColumn Header="Имя" Binding="{Binding FirstName}" Width="*"/>
+                        <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}" Width="*"/>
+                        <DataGridTextColumn Header="ФИО" Binding="{Binding FullName}" Width="200"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
     </Grid>
 </Page>
